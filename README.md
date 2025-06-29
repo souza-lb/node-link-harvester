@@ -52,9 +52,6 @@ chmod +x get-link-node
 
 # 4. Execute o script
 ./get-link-node
-
-# (Opcional) Mova para seu PATH pessoal
-mv get-link-node ~/.local/bin/
 ```
 
 ### ▶️ Execução Básica
