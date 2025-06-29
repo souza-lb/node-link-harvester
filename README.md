@@ -22,18 +22,11 @@ O **Node Link Harvester** é um utilitário em shell script que automatiza a bus
 
 ## 🛠️ Como Usar
 
-### 📦 Como executar rapidamente?
-
+### 📦 Execução Direta via URL
 No terminal com sua conta de usuário comum execute:
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/souza-lb/node-link-harvester/main/get-link-node | bash
-```
-
-Após a instalação, reinicie seu terminal ou execute:
-
-```bash
-source ~/.bashrc
 ```
 
 ### 📥 Clonar e executar via Git
