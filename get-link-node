@@ -1,43 +1,43 @@
 #!/bin/bash
 
-# node-link-harvester ( Coletor de link do node )
+# node-link-harvester (Coletor de link do node)
 # Autor: Leonardo Bruno
 # Contato: souzalb@proton.me
 # Versão: 1.0
-# Data: 29/06/2025
+# Data: 04/07/2025
 
-# Verifica se o curl está instalado
-if ! command -v curl &> /dev/null; then
-    echo "❌ Erro: O comando 'curl' não está instalado."
-    echo "Por favor instale o curl para continuar:"
+# Verifica se o wget está instalado
+if ! command -v wget &> /dev/null; then
+    echo "❌ Erro: O comando 'wget' não está instalado."
+    echo "Por favor instale o wget para continuar:"
     echo ""
     echo "📦 Para sistemas baseados em Debian/Ubuntu:"
-    echo "  sudo apt-get install curl"
+    echo "  sudo apt-get install wget"
     echo ""
     echo "📦 Para sistemas baseados em RHEL/CentOS:"
-    echo "  sudo yum install curl"
+    echo "  sudo yum install wget"
     echo ""
     echo "📦 Para sistemas baseados em Arch:"
-    echo "  sudo pacman -S curl"
+    echo "  sudo pacman -S wget"
     echo ""
     echo "📦 Para macOS (via Homebrew):"
-    echo "  brew install curl"
+    echo "  brew install wget"
     exit 1
 fi
 
 # Pasta base onde as versões do node estão hospedadas
 BASE_URL="https://nodejs.org/dist/"
 
-# Extensão dos arquivos para busca ( Binários Linux 64 bit )
+# Extensão dos arquivos para busca (Binários Linux 64 bit)
 EXTENSION="linux-x64.tar.xz"
 
 # Arquivo para armazenamento da lista com links
 OUTPUT_FILE="link-node.txt"
 
-# Versão mínima para listagem ( Versões anteriores a essa serão ignoradas )
+# Versão mínima para listagem (Versões anteriores a essa serão ignoradas)
 MIN_VERSION="v0.12.14"
 
-# Limpeza do arquivo de saída ( Cria um arquivo vazio ou sobrescreve o existente )
+# Limpeza do arquivo de saída (Cria um arquivo vazio ou sobrescreve o existente)
 > "$OUTPUT_FILE"
 
 # Mensagem inicial
@@ -53,14 +53,12 @@ temp_links=$(mktemp)
 temp_sorted=$(mktemp)
 
 # Captura todas as versões disponíveis na página informada
-mapfile -t versions < <(curl -s --compressed "$BASE_URL" | grep -oE 'href="v[0-9]+\.[0-9]+\.[0-9]+/"' | sed 's/href="//;s/"//g')
-
-# para imprimir o array use:
-# printf "%s\n" "${versions[@]}"
+mapfile -t versions < <(wget -qO- --compress=auto "$BASE_URL" | grep -oE 'href="v[0-9]+\.[0-9]+\.[0-9]+/"' | sed 's/href="//;s/"//g')
 
 # Loop para tratamento no array com as versões encontradas
+total_files=0
 for version in "${versions[@]}"; do
-    # Remoção da barra no final do nome da versão ( ex: 'v18.18.2/' -> 'v18.18.2' )
+    # Remoção da barra no final do nome da versão (ex: 'v18.18.2/' -> 'v18.18.2')
     version_clean=${version%/}
 
     # Checa se a versão atual é maior ou igual à versão mínima definida
